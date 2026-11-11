@@ -1,0 +1,55 @@
+[package]
+name = "miahidpordo"
+version = "18.0.0"
+edition = "2021"
+build = "build.rs"
+description = "A GTK3 based HID device explorer and controller"
+authors = ["Mahmud Razliqli <mahmudrazliqli@yahoo.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/mahmudrazliqli/miahidpordorust"
+homepage = "https://github.com/mahmudrazliqli/miahidpordorust"
+keywords = ["hid", "usb", "gtk", "gtk3", "descriptor"]
+categories = ["gui", "hardware-support"]
+exclude = ["target/*", ".github/*"]
+
+[dependencies]
+gtk = "0.18"
+hidapi = "2.6"
+glib = "0.18"
+serde = { version = "1", features = ["derive"] }
+toml = "0.8"
+
+[build-dependencies]
+glib-build-tools = "0.20"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"
+
+[package.metadata.deb]
+maintainer = "Mahmud Razliqli <mahmudrazliqli@yahoo.com>"
+copyright = "2026, Mahmud Razliqli"
+license-file = ["LICENSE", "0"]
+extended-description = """
+Mia HID Pordo is a graphical HID device explorer for Linux.
+It enumerates HID devices, parses and displays the HID Report
+Descriptor in a human-readable format, and allows sending Output,
+Feature and Input reports interactively.
+"""
+section = "utils"
+priority = "optional"
+depends = "$auto"
+assets = [
+    # باینری اصلی
+    ["target/release/miahidpordo", "usr/bin/", "755"],
+    # فایل دسکتاپ
+    ["miahidpordo.desktop", "usr/share/applications/", "644"],
+    # آیکون SVG در مسیر scalable
+    ["resources/icon.svg", "usr/share/icons/hicolor/scalable/apps/miahidpordo.svg", "644"],
+    # README
+    ["README.md", "usr/share/doc/miahidpordo/README.md", "644"],
+]
